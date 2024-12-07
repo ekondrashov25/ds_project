@@ -244,7 +244,15 @@ salaries_dist.update_traces(
 
 salaries_dist.update_layout(
     title_font_size=16,
-    xaxis_title='Salary (USD)'
+    xaxis_title='Salary (USD)',
+    xaxis=dict(
+        showgrid=True,  
+        gridcolor='lightgray'  
+    ),
+    yaxis=dict(
+        showgrid=True,  
+        gridcolor='lightgray' 
+    )
 )
 ''')
 
@@ -262,7 +270,15 @@ salaries_dist.update_traces(
 
 salaries_dist.update_layout(
     title_font_size=16,
-    xaxis_title='Salary (USD)'
+    xaxis_title='Salary (USD)',
+    xaxis=dict(
+        showgrid=True,  
+        gridcolor='lightgray'  
+    ),
+    yaxis=dict(
+        showgrid=True,  
+        gridcolor='lightgray' 
+    )
 )
 
 st.plotly_chart(salaries_dist)
