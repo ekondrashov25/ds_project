@@ -18,15 +18,28 @@ df = load_data()
 # Descriptive statistics
 st.title("Data Science Salaries Analysis")
 
+st.subheader('Importing libraries')
+st.code('''
+import pandas as pd
+import plotly.express as px
+import pycountry
+''')
+
+st.subheader('Data')
+st.text('Loading data')
+st.code('''
+df = pd.read_csv('ds_salaries.csv', sep=';')
+''')
+
 st.subheader("Dataset Structure")
+st.text('Let us have a look at dataset structure:')
+st.code('''df.head()''')
 st.write(df.head())
 
-st.subheader("Looking for NaN data")
+st.text("Looking for NaN data")
+st.code('df.isna().sum()')
 st.write(df.isna().sum())
 st.write("From the results above we can see, that dataset does not have none cells which means that it is already **cleaned up**.")
-
-st.subheader("Dataset Info")
-st.write(df.info())
 
 st.subheader("Descriptive Statistics")
 st.write("Checking the description of dataset and numeric columns:")
@@ -36,6 +49,25 @@ st.subheader("Salary in USD Description")
 st.write("Checking the description of column `salary_in_usd`:")
 st.write(df['salary_in_usd'].describe())
 st.write("We got mean salary value in USD which ≈ $112 297")
+
+
+st.write("Checking the description of col `job_title`:")
+st.write("To get information about job titles I have to add numeric column for it:")
+
+def convert_job_titles(title: str) -> int:
+    job_titles_dict = {title: idx + 1 for idx, title in enumerate(df['job_title'].unique().tolist())}
+    return job_titles_dict[title]
+
+df['job_title_numeric'] = df['job_title'].apply(convert_job_titles)
+
+st.code('''
+def convert_job_titles(title: str) -> int:
+    job_titles_dict = {title: idx + 1 for idx, title in enumerate(df['job_title'].unique().tolist())}
+    return job_titles_dict[title]
+
+df['job_title_numeric'] = df['job_title'].apply(convert_job_titles)
+''')
+
 
 # Transforming data
 st.subheader("Data Transformation")
