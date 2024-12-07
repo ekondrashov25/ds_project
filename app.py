@@ -118,16 +118,15 @@ st.subheader("Data Transformation")
 
 st.write("Let us drop the column `salary_currency`. This information is redundant because it is more convenient to evaluate the salary in USD (which already exists in the dataset as a separate column `salary_in_usd`).")
 st.code("df.drop(columns='salary_currency', inplace=True)")
-st.write(df.drop(columns='salary_currency', inplace=True))
-
+df.drop(columns='salary_currency', inplace=True)
 
 st.code('df.head()')
 st.write(df.head())
 
 
-st.text("Also let us drop the coloumn `salary`. As it was mentioned before I will evaluate the salary in USD.")
+st.rite("Also let us drop the coloumn `salary`. As it was mentioned before I will evaluate the salary in USD.")
 st.code("df.drop(columns='salary', inplace=True)")
-st.write(df.drop(columns='salary', inplace=True))
+df.drop(columns='salary', inplace=True)
 
 st.code('df.head()')
 st.write(df.head())
@@ -167,7 +166,7 @@ st.code("df['experience_level'].value_counts()")
 st.write(df['experience_level'].value_counts())
 
 
-st.text('''
+st.write('''
 `employment_type:`
 - PT Part-time
 - FT Full-time
