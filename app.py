@@ -4,6 +4,8 @@ import plotly.express as px
 import pycountry
 import numpy as np
 
+st.set_page_config(layout="wide", page_title="Data Science Salaries Analysis", page_icon="💼")
+
 # Loading data
 @st.cache_data
 def load_data():
