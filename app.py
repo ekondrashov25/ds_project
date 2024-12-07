@@ -228,7 +228,7 @@ st.write("We can see that now we have all the modifications done correctly.")
 st.subheader("Simple Plots")
 
 # Salary Distribution
-st.subheader("Distribution of employees' salary")
+st.text("Distribution of employees' salary")
 st.code('''
 salaries_dist = px.box(
     df,
@@ -284,7 +284,7 @@ salaries_dist.update_layout(
 st.plotly_chart(salaries_dist)
 
 # Most Popular Positions
-st.subheader("The most popular positions of programmers in this dataset")
+st.text("Now let's check the most popular positions of programmers in this dataset:")
 st.code('''
 experience_level = df['experience_level'].value_counts()
 popular_positions = px.pie(
@@ -314,7 +314,10 @@ popular_positions.update_layout(
 st.plotly_chart(popular_positions)
 
 # Most Popular Countries
-st.subheader("The most popular countries among programmers for work")
+st.text("Now look for the most popular countries among programmers for work:")
+st.code("df['employee_residence'].value_counts()")
+st.write(df['employee_residence'].value_counts())
+
 st.write("Since I have a lot of countries in which there are less than 5 programmers I will create a separate field for them called: `Other`")
 st.code('''
 country_counts = df['employee_residence_iso_3'].value_counts()
@@ -353,7 +356,7 @@ top_countries.update_layout(
 st.plotly_chart(top_countries)
 
 # Salaries in Residence of Work Countries
-st.subheader("Plot salaries in residence of work countries")
+st.text("Plot salaries in residence of work countries:")
 st.code('''
 aggregated_salaries = df.groupby('employee_residence_grouped')['salary_in_usd'].mean().reset_index()
 salaries = px.bar(
@@ -375,7 +378,7 @@ salaries = px.bar(
 st.plotly_chart(salaries)
 
 # Salary Change from 2020 to 2022
-st.subheader("Plot salary change from 2020 to 2022")
+st.text("Plot salary change from 2020 to 2022:")
 st.code('''
 salary_by_year = df.groupby('work_year')['salary_in_usd'].mean().reset_index()
 salaries = px.line(
@@ -552,7 +555,7 @@ st.plotly_chart(salaries_dist_2)
 st.write("Employees who have `remote_ratio = 0` (work from office) mostly work Full-Time.")
 
 # 3D Scatter Plot
-st.subheader("3D Scatter Plot")
+st.text("Let us view this graphs in 3D")
 st.code('''
 salaries_dist_2_cube = px.scatter_3d(
     df,
@@ -604,7 +607,7 @@ salaries_dist_2_cube.update_layout(
 st.plotly_chart(salaries_dist_2_cube)
 
 # Distribution of Employees Residence on Heat-map
-st.subheader("Distribution of Employees Residence on Heat-map")
+st.text("Distribution of Employees Residence on Heat-map")
 st.code('''
 employee_residence = df[df['employee_residence_grouped'] != 'Less than 5 employees per country']['employee_residence_grouped'].value_counts()
 employee_residence_filtered = pd.DataFrame({"residence": employee_residence.index.to_list(), 'number_of_programmers': employee_residence.values.tolist()})
@@ -644,14 +647,25 @@ st.write("The most popular country for employees is the United States as I menti
 
 # Hypothesis Statement
 st.subheader("Hypothesis Statement")
-st.write("Seniors and Directors working remotely in large companies (remote_ratio = 100) earn significantly higher salaries than employees with similar experience in smaller companies and it is also works for Juniors and Middles employees.")
+st.write("- Seniors and Directors working remotely in large companies (remote_ratio = 100) earn significantly higher salaries than employees with similar experience in smaller companies and it is also works for Juniors and Middles employees.")
 
 # Hypothesis Check
 st.subheader("Hypothesis Check")
 st.write("We are interested in only remote employees, so I will take employees with `remote_ratio` = 100 and create a subdataframe:")
 
 # Fully Remote Employees
+st.code("fully_remote = df[df['remote_ratio'] == 100]")
 fully_remote = df[df['remote_ratio'] == 100]
+
+st.write('''
+Now, we create two dataframes:
+- With Seniors and Directors
+- With Juniors and Middles
+''')
+st.code('''
+seniors_and_directors = fully_remote[((fully_remote['experience_level'] == 'Senior') | (fully_remote['experience_level'] == 'Director'))]
+juniors_and_middles = fully_remote[(fully_remote['experience_level'] == 'Junior') | (fully_remote['experience_level'] == 'Middle')]
+        ''')
 
 # Seniors and Directors
 seniors_and_directors = fully_remote[((fully_remote['experience_level'] == 'Senior') | (fully_remote['experience_level'] == 'Director'))]
@@ -660,7 +674,7 @@ seniors_and_directors = fully_remote[((fully_remote['experience_level'] == 'Seni
 juniors_and_middles = fully_remote[(fully_remote['experience_level'] == 'Junior') | (fully_remote['experience_level'] == 'Middle')]
 
 # Salary Distribution among Seniors and Directors
-st.subheader("Salary Distribution among Seniors and Directors")
+st.text("Let us check distribution of salaries among Seniors and Directors in companies with different sizes:")
 st.code('''
 filter_seniors_and_directors_by_company = seniors_and_directors[seniors_and_directors['company_size'] != 'M']
 seniors_and_directors_plot = px.box(
@@ -682,6 +696,7 @@ seniors_and_directors_plot.update_layout(
     )
 )
 ''')
+
 
 filter_seniors_and_directors_by_company = seniors_and_directors[seniors_and_directors['company_size'] != 'M']
 seniors_and_directors_plot = px.box(
@@ -707,7 +722,7 @@ st.plotly_chart(seniors_and_directors_plot)
 st.write("Here we consider only remote workers. We can mention that salaries of such employees are bigger in large companies, but still it does not fully clear.")
 
 # Mean Salary Comparison: Seniors and Directors
-st.subheader("Mean Salary Comparison: Seniors and Directors")
+st.text("Let us plot mean value of salary among Seniors and Directors in Large companies and mean in Small companies together to have more detailed view:")
 st.code('''
 large_companies_dir_and_sen = seniors_and_directors[seniors_and_directors['company_size'] == 'L']
 small_and_medium_companies_dir_and_sen = seniors_and_directors[(seniors_and_directors['company_size'] == 'S')]
@@ -752,7 +767,7 @@ st.plotly_chart(salaries_comparison_seniors_and_directors)
 st.write("Indeed, now we can easily see that salaries of Seniors and Directors in Large companies are bigger than salaries of similar employees but in small companies.")
 
 # Salary Distribution among Juniors and Middles
-st.subheader("Salary Distribution among Juniors and Middles")
+st.text("Now let us check the same thing among Juniors and Middles:")
 st.code('''
 filter_juniors_and_middles_by_company = juniors_and_middles[juniors_and_middles['company_size'] != 'M']
 juniors_and_middles_plot = px.box(
@@ -799,7 +814,6 @@ st.plotly_chart(juniors_and_middles_plot)
 st.write("Here, situation is a little bit interesting, we cannot see that salary is really bigger in Large companies. So, let us go deeply to understand it:")
 
 # Mean Salary Comparison: Juniors and Middles
-st.subheader("Mean Salary Comparison: Juniors and Middles")
 st.code('''
 large_companies_mid_and_jun = juniors_and_middles[juniors_and_middles['company_size'] == 'L']
 small_and_medium_companies_mid_and_jun = juniors_and_middles[(juniors_and_middles['company_size'] == 'S')]
@@ -844,7 +858,7 @@ st.plotly_chart(salaries_comparison_juniors_and_middles)
 st.write("Now it can be seen that salaries of Juniors and Middles quite bigger in Large companies.")
 
 # Percentage Difference in Salaries
-st.subheader("Percentage Difference in Salaries")
+st.text("Then let us calculate the difference between salaries in persentage for each of type of employees:")
 st.code('''
 def percentage(a, b):
     if a > b:
