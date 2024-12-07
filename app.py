@@ -68,6 +68,50 @@ def convert_job_titles(title: str) -> int:
 df['job_title_numeric'] = df['job_title'].apply(convert_job_titles)
 ''')
 
+st.code('''df.head()''')
+st.write(df.head())
+
+
+st.code('''
+median_job_title = df['job_title_numeric'].median()
+median_job_title
+''')
+median_job_title = df['job_title_numeric'].median()
+st.write(median_job_title)
+
+st.text('Let us create a  function to convert numeric value back:')
+
+st.code('''
+def convert_job_titles_to_text(title: int) -> str:
+    job_titles_dict = {idx + 1: title for idx, title in enumerate(df['job_title'].unique().tolist())}
+    return job_titles_dict[title]''')
+
+def convert_job_titles_to_text(title: int) -> str:
+    job_titles_dict = {idx + 1: title for idx, title in enumerate(df['job_title'].unique().tolist())}
+    return job_titles_dict[title]
+
+
+
+st.code('convert_job_titles_to_text(median_job_title)')
+st.write(convert_job_titles_to_text(median_job_title))
+
+st.write('It can be seen that on average the position of programmers in dataset is `Business Data Analyst`.')
+st.code("df['employee_residence'].describe()")
+st.write(df['employee_residence'].describe())
+st.text('Now we know that the most popular residence for work is United States ')
+
+
+st.write('Checking the description of column `remote_ratio:`')
+st.write('''
+- 0 No remote work 
+- 50 Partially remote 
+- 100 Fully remote
+         ''')
+
+st.code("df['remote_ratio'].value_counts()")
+st.write(df['remote_ratio'].value_counts())
+st.text('We can conclude that most of employees works remotely')
+
 
 # Transforming data
 st.subheader("Data Transformation")
