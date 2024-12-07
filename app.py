@@ -240,7 +240,6 @@ salaries_dist = px.box(
 
 salaries_dist.update_traces(
     marker_color='blue',
-    line_color='black'
 )
 
 salaries_dist.update_layout(
@@ -259,7 +258,6 @@ salaries_dist = px.box(
 
 salaries_dist.update_traces(
     marker_color='blue',
-    line_color='black'
 )
 
 salaries_dist.update_layout(
