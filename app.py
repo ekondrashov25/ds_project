@@ -124,7 +124,7 @@ st.code('df.head()')
 st.write(df.head())
 
 
-st.rite("Also let us drop the coloumn `salary`. As it was mentioned before I will evaluate the salary in USD.")
+st.write("Also let us drop the coloumn `salary`. As it was mentioned before I will evaluate the salary in USD.")
 st.code("df.drop(columns='salary', inplace=True)")
 df.drop(columns='salary', inplace=True)
 
