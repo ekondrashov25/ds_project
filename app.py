@@ -117,21 +117,87 @@ st.text('We can conclude that most of employees works remotely')
 st.subheader("Data Transformation")
 
 st.write("Let us drop the column `salary_currency`. This information is redundant because it is more convenient to evaluate the salary in USD (which already exists in the dataset as a separate column `salary_in_usd`).")
+st.code("df.drop(columns='salary_currency', inplace=True)")
+st.write(df.drop(columns='salary_currency', inplace=True))
 
-# Drop redundant columns
-df.drop(columns=['salary_currency', 'salary'], inplace=True)
-st.write("Columns dropped successfully.")
+
+st.code('df.head()')
+st.write(df.head())
+
+
+st.text("Also let us drop the coloumn `salary`. As it was mentioned before I will evaluate the salary in USD.")
+st.code("df.drop(columns='salary', inplace=True)")
+st.write(df.drop(columns='salary', inplace=True))
+
+st.code('df.head()')
+st.write(df.head())
+
+st.text('As you can see columns dropped successfully.')
 
 st.write("In my dataset I have a column `employee_residence` which contains country name in ISO-3166 format. It will be used for the country plot which takes ISO-3 format of the country name. So I need to convert it to the desired format for proper handling.")
 
-# Convert country name to ISO-3 format
+
 def convert_country_name(country_name: str) -> str:
     return pycountry.countries.get(alpha_2=country_name).alpha_3
 
+st.code('''
+def convert_country_name(country_name: str) -> str:
+    return pycountry.countries.get(alpha_2=country_name).alpha_3
+''')
+
+st.code("df['employee_residence_iso_3'] = df['employee_residence'].apply(convert_country_name)")
 df['employee_residence_iso_3'] = df['employee_residence'].apply(convert_country_name)
+st.code('df.head()')
+st.write(df.head())
+
+
 st.write("We can see that there is a new column `employee_residence_iso_3` with the correct format.")
 
+
 st.write("Let us convert columns `experience_level` and `employment_type` to more convenient to understand names.")
+
+
+st.write('''`experience_level:`
+- EN Junior 
+- MI Intermediate 
+- SE Expert 
+- EX Director
+''')
+st.code("df['experience_level'].value_counts()")
+st.write(df['experience_level'].value_counts())
+
+
+st.text('''
+`employment_type:`
+- PT Part-time
+- FT Full-time
+- CT Contract
+- FL Freelance
+''')
+
+st.code("df['employment_type'].value_counts()")
+st.write(df['employment_type'].value_counts())
+
+st.code('''
+
+experience_level_mapping = {
+    'EN': 'Junior',
+    'MI': 'Middle',
+    'SE': 'Senior',
+    'EX': 'Director'
+}
+
+employment_type_mapping = {
+    'PT': 'Part-time',
+    'FT': 'Full-time',
+    'CT': 'Contract',
+    'FL': 'Freelance'
+}
+
+
+df['experience_level'] = df['experience_level'].replace(experience_level_mapping)
+df['employment_type'] = df['employment_type'].replace(employment_type_mapping)
+''')
 
 # Convert experience_level and employment_type to more understandable names
 experience_level_mapping = {
@@ -150,13 +216,14 @@ employment_type_mapping = {
 
 df['experience_level'] = df['experience_level'].replace(experience_level_mapping)
 df['employment_type'] = df['employment_type'].replace(employment_type_mapping)
+
+st.code('df.head()')
+st.write(df.head())
 st.write("We can see that now we have all the modifications done correctly.")
 
-st.write("`experience_level`:")
-st.write(df['experience_level'].value_counts())
 
-st.write("`employment_type`:")
-st.write(df['employment_type'].value_counts())
+
+
 
 # Simple Plots
 st.subheader("Simple Plots")
