@@ -4,7 +4,6 @@ import plotly.express as px
 import pycountry
 import numpy as np
 
-# Set Streamlit page config for light theme
 st.set_page_config(page_title="Data Science Salaries Analysis")
 
 # Loading data
@@ -105,9 +104,9 @@ st.text('Now we know that the most popular residence for work is United States '
 
 st.write('Checking the description of column `remote_ratio:`')
 st.write('''
-- 0 No remote work 
-- 50 Partially remote 
-- 100 Fully remote
+- 0 - No remote work 
+- 50 - Partially remote 
+- 100 - Fully remote
          ''')
 
 st.code("df['remote_ratio'].value_counts()")
@@ -159,10 +158,10 @@ st.write("Let us convert columns `experience_level` and `employment_type` to mor
 
 
 st.write('''`experience_level:`
-- EN Junior 
-- MI Middle 
-- SE Senior 
-- EX Director
+- EN - Junior 
+- MI - Middle 
+- SE - Senior 
+- EX - Director
 ''')
 st.code("df['experience_level'].value_counts()")
 st.write(df['experience_level'].value_counts())
@@ -170,10 +169,10 @@ st.write(df['experience_level'].value_counts())
 
 st.write('''
 `employment_type:`
-- PT Part-time
-- FT Full-time
-- CT Contract
-- FL Freelance
+- PT - Part-time
+- FT - Full-time
+- CT - Contract
+- FL - Freelance
 ''')
 
 st.code("df['employment_type'].value_counts()")
@@ -290,6 +289,7 @@ salaries_dist.update_layout(
 )
 
 st.plotly_chart(salaries_dist)
+st.text('We can see that median salary is about $100 000 and there some data outliers.')
 
 # Most Popular Positions
 st.text("Now let's check the most popular positions of programmers in this dataset:")
@@ -320,6 +320,7 @@ popular_positions.update_layout(
 )
 
 st.plotly_chart(popular_positions)
+st.text('It occurs that the most popular position (employee level) is Senior and second most popular is Middle')
 
 # Most Popular Countries
 st.text("Now look for the most popular countries among programmers for work:")
@@ -370,7 +371,7 @@ top_countries.update_layout(
 st.plotly_chart(top_countries)
 
 # Salaries in Residence of Work Countries
-st.text("Plot salaries in residence of work countries:")
+st.text("Plot mean of salaries in residence of work countries:")
 st.code('''
 aggregated_salaries = df.groupby('employee_residence_grouped')['salary_in_usd'].mean().reset_index()
 salaries = px.bar(
@@ -390,6 +391,7 @@ salaries = px.bar(
 )
 
 st.plotly_chart(salaries)
+st.text('Here, the biggest mean salaies are in United States, Japan and Canada.')
 
 # Salary Change from 2020 to 2022
 st.text("Plot salary change from 2020 to 2022:")
@@ -496,7 +498,6 @@ st.subheader("Detailed Overview via Complex Plots")
 st.write("More informative plot of distribution of programmers by `experience_level`, `employment_type` and `job_title`:")
 
 # Sunburst Plot
-st.subheader("Sunburst Plot")
 st.code('''
 sunburst_plot = px.sunburst(
     df,
@@ -822,7 +823,7 @@ juniors_and_middles_plot.update_layout(
 )
 
 st.plotly_chart(juniors_and_middles_plot)
-st.write("Here, situation is a little bit interesting, we cannot see that salary is really bigger in Large companies. So, let us go deeply to understand it:")
+st.write("Here, situation is a little bit more interesting, we cannot see that salary is really bigger in Large companies. So, let us go deeply to understand it:")
 
 # Mean Salary Comparison: Juniors and Middles
 st.code('''
@@ -895,4 +896,4 @@ st.write(f'The difference in the percentage of salaries between Juniors and Midd
 
 # Discussion
 st.subheader("Discussion")
-st.write("In conclusion, my hypothesis was proved and I was right. Salaries for Seniors and Directors in large companies are significantly higher than those in small companies, with a 47% difference. Similarly, Juniors and Middles in large companies earn 68% more on average compared to employees in the same positions at small companies.")
+st.write("In conclusion, my hypothesis was proved and the it was right. Salaries for Seniors and Directors in large companies are significantly higher than those in small companies, with a 47% difference. Similarly, Juniors and Middles in large companies earn 68% more on average compared to employees in the same positions at small companies.")
