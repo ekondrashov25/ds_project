@@ -43,10 +43,12 @@ st.write("From the results above we can see, that dataset does not have none cel
 
 st.subheader("Descriptive Statistics")
 st.write("Checking the description of dataset and numeric columns:")
+st.code('df.describe()')
 st.write(df.describe())
 
 st.subheader("Salary in USD Description")
 st.write("Checking the description of column `salary_in_usd`:")
+st.code("df['salary_in_usd'].describe()")
 st.write(df['salary_in_usd'].describe())
 st.write("We got mean salary value in USD which ≈ $112 297")
 
@@ -79,7 +81,7 @@ median_job_title
 median_job_title = df['job_title_numeric'].median()
 st.write(median_job_title)
 
-st.text('Let us create a  function to convert numeric value back:')
+st.text('Let us create a function to convert numeric value back:')
 
 st.code('''
 def convert_job_titles_to_text(title: int) -> str:
@@ -158,8 +160,8 @@ st.write("Let us convert columns `experience_level` and `employment_type` to mor
 
 st.write('''`experience_level:`
 - EN Junior 
-- MI Intermediate 
-- SE Expert 
+- MI Middle 
+- SE Senior 
 - EX Director
 ''')
 st.code("df['experience_level'].value_counts()")
@@ -221,8 +223,14 @@ st.write(df.head())
 st.write("We can see that now we have all the modifications done correctly.")
 
 
+st.write('`experience_level`')
+st.code("df['experience_level'].value_counts()")
+st.write(df['experience_level'].value_counts())
 
 
+st.write('`employment_type`')
+st.code("df['employment_type'].value_counts()")
+st.write(df['employment_type'].value_counts())
 
 # Simple Plots
 st.subheader("Simple Plots")
@@ -323,7 +331,13 @@ st.code('''
 country_counts = df['employee_residence_iso_3'].value_counts()
 low_count_countries = country_counts[country_counts < 5].index
 df['employee_residence_grouped'] = df['employee_residence_iso_3'].apply(lambda x: 'Less than 5 employees per country' if x in low_count_countries else x)
+'''
+)
+st.code('df.head()')
+st.write(df.head())        
 
+
+st.code('''
 employee_residence = df['employee_residence_grouped'].value_counts()
 top_countries = px.pie(
     values=employee_residence,
@@ -424,7 +438,7 @@ salaries.update_layout(
 )
 
 st.plotly_chart(salaries)
-st.write("On the graph we can see a **slight increase** in salaries during the years.")
+st.write("On the graph we can see a **increase** in salaries during the years.")
 
 # Salary Distribution by Company Size
 st.subheader("Salary distribution by company size")
@@ -512,7 +526,7 @@ sunburst_plot = px.sunburst(
 st.plotly_chart(sunburst_plot)
 
 # Salary Distribution by Experience Level and Remote Ratio
-st.subheader("Salary Distribution by Experience Level and Remote Ratio")
+st.text("Salary Distribution by Experience Level and Remote Ratio")
 st.code('''
 salaries_dist_2 = px.box(
     df,
@@ -647,7 +661,7 @@ st.write("The most popular country for employees is the United States as I menti
 
 # Hypothesis Statement
 st.subheader("Hypothesis Statement")
-st.write("- Seniors and Directors working remotely in large companies (remote_ratio = 100) earn significantly higher salaries than employees with similar experience in smaller companies and it is also works for Juniors and Middles employees.")
+st.write("- Seniors and Directors working remotely (`remote_ratio` = 100) in large companies earn significantly higher salaries than employees with similar experience in smaller companies and it is also works for Juniors and Middles employees.")
 
 # Hypothesis Check
 st.subheader("Hypothesis Check")
@@ -667,10 +681,7 @@ seniors_and_directors = fully_remote[((fully_remote['experience_level'] == 'Seni
 juniors_and_middles = fully_remote[(fully_remote['experience_level'] == 'Junior') | (fully_remote['experience_level'] == 'Middle')]
         ''')
 
-# Seniors and Directors
 seniors_and_directors = fully_remote[((fully_remote['experience_level'] == 'Senior') | (fully_remote['experience_level'] == 'Director'))]
-
-# Juniors and Middles
 juniors_and_middles = fully_remote[(fully_remote['experience_level'] == 'Junior') | (fully_remote['experience_level'] == 'Middle')]
 
 # Salary Distribution among Seniors and Directors
